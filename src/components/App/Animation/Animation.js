@@ -26,8 +26,10 @@ const Animation = ({
       camera.position.x = cameraPosition.x;
       camera.position.y = cameraPosition.y;
       camera.position.z = cameraPosition.z;
+
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(900, 900);
+
       const container = document.getElementsByClassName("scene")[0];
       container.appendChild(renderer.domElement);
       const loader = new AMI.VolumeLoader(container);
@@ -37,11 +39,13 @@ const Animation = ({
           const series = loader.data[0].mergeSeries(loader.data)[0];
           const stack = series.stack[0];
           loader.free();
+
           stackHelper = new AMI.StackHelper(stack);
           stackHelper.bbox.color = colors.red;
           stackHelper.border.color = colors.blue;
           stackHelper.index = planePosition.z;
           scene.add(stackHelper);
+
           const centerLPS = stackHelper.stack.worldCenter();
           camera.lookAt(centerLPS.x, centerLPS.y, centerLPS.z);
           camera.updateProjectionMatrix();
