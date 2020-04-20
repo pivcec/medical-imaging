@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import THREE from "../../../libs/three";
 import AMI from "../../../libs/ami";
 import { colors, files } from "../../../helpers/utils";
 
-let camera, scene, renderer, controls, stackHelper;
+const orientationKeys = ["x", "y", "z"];
+
+let camera, scene, renderer, stackHelper;
 
 const Scene = styled.div`
   text-align: center;
@@ -19,6 +21,8 @@ const Animation = ({
   orientation,
   handleCentering,
 }) => {
+  const [activeOrientation, setActiveOrientation] = useState("x");
+
   useEffect(() => {
     const init = () => {
       scene = new THREE.Scene();
@@ -43,7 +47,7 @@ const Animation = ({
           stackHelper = new AMI.StackHelper(stack);
           stackHelper.bbox.color = colors.red;
           stackHelper.border.color = colors.blue;
-          stackHelper.index = planePosition.z;
+          stackHelper.index = planePosition.x;
           scene.add(stackHelper);
 
           const centerLPS = stackHelper.stack.worldCenter();
@@ -86,16 +90,16 @@ const Animation = ({
   useEffect(() => {
     if (!stackHelper) return;
 
-    stackHelper.orientation = orientation;
-
-    // set index to value for current orientation
+    setActiveOrientation(orientationKeys[orientation]);
   }, [orientation]);
 
   useEffect(() => {
     if (!stackHelper) return;
 
-    stackHelper.index = planePosition.z;
-  }, [planePosition]);
+    stackHelper.orientation = orientationKeys.indexOf(activeOrientation);
+
+    stackHelper.index = planePosition[activeOrientation];
+  }, [planePosition, activeOrientation]);
 
   return <Scene className="scene" />;
 };
