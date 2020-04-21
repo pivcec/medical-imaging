@@ -4,8 +4,7 @@ import styled from "styled-components";
 import THREE from "../../../libs/three";
 import AMI from "../../../libs/ami";
 import { colors, files } from "../../../helpers/utils";
-
-const orientationKeys = ["x", "y", "z"];
+import { orientationKeys } from "../../../constants/";
 
 let camera, scene, renderer, stackHelper;
 

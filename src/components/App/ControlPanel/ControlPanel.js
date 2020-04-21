@@ -38,8 +38,13 @@ const ControlPanel = ({
       <PlanePosition
         planePosition={planePosition}
         handleUpdate={updatePlanePosition}
+        orientation={orientation}
       />
-      <Orientation orientation={orientation} handleUpdate={updateOrientation} />
+      <Orientation
+        orientation={orientation}
+        planePosition={planePosition}
+        handleUpdate={updateOrientation}
+      />
     </Container>
   );
 };

@@ -11,28 +11,38 @@ const TogglerTitle = styled.div`
   margin-bottom: 1em;
 `;
 
-const PlanePosition = ({ handleUpdate, planePosition: { x, y, z } }) => {
+const PlanePosition = ({
+  handleUpdate,
+  orientation,
+  planePosition: { x, y, z },
+}) => {
   return (
     <Container>
       <TogglerTitle>Plane Position</TogglerTitle>
-      <Toggler
-        label={"X"}
-        propertyToUpdate={"x"}
-        handleUpdate={handleUpdate}
-        value={x}
-      />
-      <Toggler
-        label={"Y"}
-        propertyToUpdate={"y"}
-        handleUpdate={handleUpdate}
-        value={y}
-      />
-      <Toggler
-        label={"Z"}
-        propertyToUpdate={"z"}
-        handleUpdate={handleUpdate}
-        value={z}
-      />
+      {orientation === 0 && (
+        <Toggler
+          label={"X"}
+          propertyToUpdate={"x"}
+          handleUpdate={handleUpdate}
+          value={x}
+        />
+      )}
+      {orientation === 1 && (
+        <Toggler
+          label={"Y"}
+          propertyToUpdate={"y"}
+          handleUpdate={handleUpdate}
+          value={y}
+        />
+      )}
+      {orientation === 2 && (
+        <Toggler
+          label={"Z"}
+          propertyToUpdate={"z"}
+          handleUpdate={handleUpdate}
+          value={z}
+        />
+      )}
     </Container>
   );
 };
@@ -40,6 +50,7 @@ const PlanePosition = ({ handleUpdate, planePosition: { x, y, z } }) => {
 PlanePosition.propTypes = {
   handleUpdate: PropTypes.func.isRequired,
   planePosition: PropTypes.object.isRequired,
+  orientation: PropTypes.number.isRequired,
 };
 
 export default PlanePosition;
