@@ -9,6 +9,7 @@ import { orientationKeys } from "../../../constants/";
 let camera, scene, renderer, stackHelper;
 
 const Scene = styled.div`
+  width: 900px;
   text-align: center;
   margin: 1em;
 `;
@@ -19,8 +20,9 @@ const Animation = ({
   centerPosition,
   orientation,
   handleCentering,
+  setOrientationMaxIndex,
 }) => {
-  const [activeOrientation, setActiveOrientation] = useState("z");
+  const [activeOrientation, setActiveOrientation] = useState(null);
 
   useEffect(() => {
     const init = () => {
@@ -46,12 +48,13 @@ const Animation = ({
           stackHelper = new AMI.StackHelper(stack);
           stackHelper.bbox.color = colors.red;
           stackHelper.border.color = colors.blue;
-          stackHelper.index = planePosition.x;
           scene.add(stackHelper);
 
           const centerLPS = stackHelper.stack.worldCenter();
           camera.lookAt(centerLPS.x, centerLPS.y, centerLPS.z);
           camera.updateProjectionMatrix();
+
+          setActiveOrientation("z");
           handleCentering(centerLPS);
         })
         .catch((error) => {
@@ -98,6 +101,8 @@ const Animation = ({
     stackHelper.orientation = orientationKeys.indexOf(activeOrientation);
 
     stackHelper.index = planePosition[activeOrientation];
+
+    setOrientationMaxIndex(stackHelper.orientationMaxIndex);
   }, [planePosition, activeOrientation]);
 
   return <Scene className="scene" />;
@@ -109,6 +114,7 @@ Animation.propTypes = {
   centerPosition: PropTypes.object.isRequired,
   orientation: PropTypes.number.isRequired,
   handleCentering: PropTypes.func.isRequired,
+  setOrientationMaxIndex: PropTypes.func.isRequired,
 };
 
 export default Animation;

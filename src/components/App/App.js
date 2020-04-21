@@ -10,8 +10,8 @@ const Container = styled.div`
 
 const App = () => {
   const [cameraPosition, setCameraPosition] = useState({
-    x: -30,
-    y: 10,
+    x: -8,
+    y: -25,
     z: 310,
   });
   const [centerPosition, setCenterPosition] = useState({
@@ -25,6 +25,7 @@ const App = () => {
     z: 0,
   });
   const [orientation, setOrientation] = useState(0);
+  const [orientationMaxIndex, setOrientationMaxIndex] = useState(null);
 
   const cameraPositionRef = useRef();
   const centerPositionRef = useRef();
@@ -63,7 +64,7 @@ const App = () => {
         ? planePosition[propertyToUpdate] + 1
         : planePosition[propertyToUpdate] - 1;
 
-    if (newValue >= 0) {
+    if (newValue >= 0 && newValue <= orientationMaxIndex) {
       setPlanePosition({
         ...planePosition,
         [propertyToUpdate]: newValue,
@@ -91,6 +92,7 @@ const App = () => {
         centerPosition={centerPosition}
         orientation={orientation}
         handleCentering={handleCentering}
+        setOrientationMaxIndex={setOrientationMaxIndex}
       />
       <ControlPanel
         planePosition={planePosition}

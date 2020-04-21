@@ -18,7 +18,7 @@ const PlanePosition = ({
 }) => {
   return (
     <Container>
-      <TogglerTitle>Plane Position</TogglerTitle>
+      <TogglerTitle>Plane</TogglerTitle>
       {orientation === 0 && (
         <Toggler
           label={"Z"}
