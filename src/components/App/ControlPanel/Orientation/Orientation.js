@@ -19,6 +19,10 @@ const Label = styled.div`
   margin-right: 1em;
 `;
 
+const Value = styled.div`
+  margin-left: 1em;
+`;
+
 const Orientation = ({ handleUpdate, orientation }) => {
   const handleClick = (plusOrMinus) => {
     handleUpdate(plusOrMinus);
@@ -31,7 +35,7 @@ const Orientation = ({ handleUpdate, orientation }) => {
         <Label>{orientationKeys[orientation].toUpperCase()}</Label>
         <button onClick={() => handleClick("plus")}>+</button>
         <button onClick={() => handleClick("minus")}>-</button>
-        {orientation}
+        <Value>{orientation}</Value>
       </Toggler>
     </Container>
   );

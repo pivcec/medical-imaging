@@ -1,1 +1,1 @@
-export const orientationKeys = ["x", "y", "z"];
+export const orientationKeys = ["z", "x", "y"];

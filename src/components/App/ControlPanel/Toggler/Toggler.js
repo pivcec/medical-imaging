@@ -10,6 +10,10 @@ const Label = styled.div`
   margin-right: 1em;
 `;
 
+const Value = styled.div`
+  margin-left: 1em;
+`;
+
 const Toggler = ({ handleUpdate, propertyToUpdate, label, value }) => {
   const handleClick = (plusOrMinus) => {
     handleUpdate(propertyToUpdate, plusOrMinus);
@@ -20,7 +24,7 @@ const Toggler = ({ handleUpdate, propertyToUpdate, label, value }) => {
       <Label>{label}</Label>
       <button onClick={() => handleClick("plus")}>+</button>
       <button onClick={() => handleClick("minus")}>-</button>
-      {Math.round(value)}
+      <Value>{Math.round(value)}</Value>
     </Container>
   );
 };

@@ -21,26 +21,26 @@ const PlanePosition = ({
       <TogglerTitle>Plane Position</TogglerTitle>
       {orientation === 0 && (
         <Toggler
+          label={"Z"}
+          propertyToUpdate={"z"}
+          handleUpdate={handleUpdate}
+          value={z}
+        />
+      )}
+      {orientation === 1 && (
+        <Toggler
           label={"X"}
           propertyToUpdate={"x"}
           handleUpdate={handleUpdate}
           value={x}
         />
       )}
-      {orientation === 1 && (
+      {orientation === 2 && (
         <Toggler
           label={"Y"}
           propertyToUpdate={"y"}
           handleUpdate={handleUpdate}
           value={y}
-        />
-      )}
-      {orientation === 2 && (
-        <Toggler
-          label={"Z"}
-          propertyToUpdate={"z"}
-          handleUpdate={handleUpdate}
-          value={z}
         />
       )}
     </Container>

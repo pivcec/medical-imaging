@@ -11,8 +11,6 @@ const Container = styled.div`
   flex-direction: column;
   padding: 1em;
   flex: 1;
-  justify-content: center;
-  align-items: center;
 `;
 
 const ControlPanel = ({

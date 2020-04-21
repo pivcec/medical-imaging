@@ -20,7 +20,7 @@ const Animation = ({
   orientation,
   handleCentering,
 }) => {
-  const [activeOrientation, setActiveOrientation] = useState("x");
+  const [activeOrientation, setActiveOrientation] = useState("z");
 
   useEffect(() => {
     const init = () => {
