@@ -21,12 +21,12 @@ const Cell = styled.div`
   margin: 0.5em;
 `;
 
-const Orientation = ({ handleUpdate, selectedOrientation }) => {
-  const getIsSelected = (orientation) => selectedOrientation === orientation;
+const View = ({ handleUpdate, selectedView }) => {
+  const getIsSelected = (view) => selectedView === view;
 
   return (
     <Container>
-      <Title>Orientation</Title>
+      <Title>View</Title>
       <Toggler>
         <Cell isSelected={getIsSelected(1)} onClick={() => handleUpdate(1)}>
           X
@@ -42,9 +42,9 @@ const Orientation = ({ handleUpdate, selectedOrientation }) => {
   );
 };
 
-Orientation.propTypes = {
+View.propTypes = {
   handleUpdate: PropTypes.func.isRequired,
-  selectedOrientation: PropTypes.number.isRequired,
+  selectedView: PropTypes.number.isRequired,
 };
 
-export default Orientation;
+export default View;

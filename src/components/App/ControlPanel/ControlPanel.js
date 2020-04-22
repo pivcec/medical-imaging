@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CameraPosition from "./CameraPosition/CameraPosition";
-import CenterPosition from "./CenterPosition/CenterPosition";
 import PlanePosition from "./PlanePosition/PlanePosition";
 import Orientation from "./Orientation/Orientation";
+import View from "./View/View";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -15,47 +14,35 @@ const Container = styled.div`
 
 const ControlPanel = ({
   planePosition,
-  cameraPosition,
-  centerPosition,
   orientation,
-  updateCameraPosition,
-  updateCenterPosition,
+  view,
   updatePlanePosition,
   updateOrientation,
+  updateView,
 }) => {
   return (
     <Container>
-      <CameraPosition
-        cameraPosition={cameraPosition}
-        handleUpdate={updateCameraPosition}
-      />
-      <CenterPosition
-        centerPosition={centerPosition}
-        handleUpdate={updateCenterPosition}
-      />
       <PlanePosition
         planePosition={planePosition}
         handleUpdate={updatePlanePosition}
         orientation={orientation}
       />
       <Orientation
-        orientation={orientation}
-        planePosition={planePosition}
+        selectedOrientation={orientation}
         handleUpdate={updateOrientation}
       />
+      <View selectedView={view} handleUpdate={updateView} />
     </Container>
   );
 };
 
 ControlPanel.propTypes = {
   planePosition: PropTypes.object.isRequired,
-  cameraPosition: PropTypes.object.isRequired,
-  centerPosition: PropTypes.object.isRequired,
   orientation: PropTypes.number.isRequired,
-  updateCameraPosition: PropTypes.func.isRequired,
-  updateCenterPosition: PropTypes.func.isRequired,
+  view: PropTypes.number.isRequired,
   updatePlanePosition: PropTypes.func.isRequired,
   updateOrientation: PropTypes.func.isRequired,
+  updateView: PropTypes.func.isRequired,
 };
 
 export default ControlPanel;
