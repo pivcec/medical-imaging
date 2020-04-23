@@ -17,3 +17,7 @@ export const views = [
     z: 54,
   },
 ];
+
+export const sliderWidth = 200;
+
+export const handleWidth = 20;

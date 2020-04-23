@@ -10,7 +10,7 @@ const Container = styled.div`
 
 const App = () => {
   const [view, setView] = useState(0);
-  const [planePosition, setPlanePosition] = useState({
+  const [planePositions, setPlanePositions] = useState({
     x: 0,
     y: 0,
     z: 0,
@@ -18,18 +18,8 @@ const App = () => {
   const [orientation, setOrientation] = useState(0);
   const [orientationMaxIndex, setOrientationMaxIndex] = useState(null);
 
-  const updatePlanePosition = (propertyToUpdate, plusOrMinus) => {
-    const newValue =
-      plusOrMinus === "plus"
-        ? planePosition[propertyToUpdate] + 1
-        : planePosition[propertyToUpdate] - 1;
-
-    if (newValue >= 0 && newValue <= orientationMaxIndex) {
-      setPlanePosition({
-        ...planePosition,
-        [propertyToUpdate]: newValue,
-      });
-    }
+  const updatePlanePositions = (newPlanePositions) => {
+    setPlanePositions(newPlanePositions);
   };
 
   const updateOrientation = (newValue) => {
@@ -43,16 +33,17 @@ const App = () => {
   return (
     <Container>
       <Animation
-        planePosition={planePosition}
+        planePositions={planePositions}
         orientation={orientation}
         view={view}
         setOrientationMaxIndex={setOrientationMaxIndex}
       />
       <ControlPanel
-        planePosition={planePosition}
+        planePositions={planePositions}
         orientation={orientation}
+        orientationMaxIndex={orientationMaxIndex}
         view={view}
-        updatePlanePosition={updatePlanePosition}
+        updatePlanePositions={updatePlanePositions}
         updateOrientation={updateOrientation}
         updateView={updateView}
       />

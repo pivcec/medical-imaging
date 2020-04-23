@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import THREE from "../../../libs/three";
@@ -15,29 +15,29 @@ const Scene = styled.div`
 `;
 
 const Animation = ({
-  planePosition,
+  planePositions,
   orientation,
   view,
   setOrientationMaxIndex,
 }) => {
-  const updateCameraPosition = (cameraPosition) => {
+  const updateCameraPosition = useCallback((cameraPosition) => {
     camera.position.x = cameraPosition.x;
     camera.position.y = cameraPosition.y;
     camera.position.z = cameraPosition.z;
-  };
+  }, []);
 
-  const setMaxIndex = () => {
+  const setMaxIndex = useCallback(() => {
     const orientationKey = orientationKeys[orientation];
-    stackHelper.orientation = orientationKeys.indexOf(orientationKey);
-    stackHelper.index = planePosition[orientationKey];
+    stackHelper.orientation = orientation;
+    stackHelper.index = planePositions[orientationKey];
     setOrientationMaxIndex(stackHelper.orientationMaxIndex);
-  };
+  }, [orientation, planePositions, setOrientationMaxIndex]);
 
-  const setCenter = () => {
+  const setCenter = useCallback(() => {
     const centerLPS = stackHelper.stack.worldCenter();
     camera.lookAt(centerLPS.x, centerLPS.y, centerLPS.z);
     camera.updateProjectionMatrix();
-  };
+  }, []);
 
   useEffect(() => {
     const init = () => {
@@ -85,7 +85,7 @@ const Animation = ({
     if (!stackHelper) return;
 
     setMaxIndex();
-  }, [planePosition, orientation]);
+  }, [planePositions, orientation]);
 
   useEffect(() => {
     if (!stackHelper) return;
@@ -98,7 +98,7 @@ const Animation = ({
 };
 
 Animation.propTypes = {
-  planePosition: PropTypes.object.isRequired,
+  planePositions: PropTypes.object.isRequired,
   orientation: PropTypes.number.isRequired,
   view: PropTypes.number.isRequired,
   setOrientationMaxIndex: PropTypes.func.isRequired,

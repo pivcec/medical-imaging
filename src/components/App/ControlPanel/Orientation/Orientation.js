@@ -14,11 +14,12 @@ const Toggler = styled.div`
   display: flex;
 `;
 
-const Cell = styled.div`
+const Button = styled.button`
   background-color: ${(props) => (props.isSelected ? "yellow" : "white")};
-  border: 1px solid black;
   padding: 1em;
   margin: 0.5em;
+  width: 50px;
+  height: 50px;
 `;
 
 const Orientation = ({ handleUpdate, selectedOrientation }) => {
@@ -28,15 +29,15 @@ const Orientation = ({ handleUpdate, selectedOrientation }) => {
     <Container>
       <Title>Orientation</Title>
       <Toggler>
-        <Cell isSelected={getIsSelected(1)} onClick={() => handleUpdate(1)}>
+        <Button isSelected={getIsSelected(1)} onClick={() => handleUpdate(1)}>
           X
-        </Cell>
-        <Cell isSelected={getIsSelected(2)} onClick={() => handleUpdate(2)}>
+        </Button>
+        <Button isSelected={getIsSelected(2)} onClick={() => handleUpdate(2)}>
           Y
-        </Cell>
-        <Cell isSelected={getIsSelected(0)} onClick={() => handleUpdate(0)}>
+        </Button>
+        <Button isSelected={getIsSelected(0)} onClick={() => handleUpdate(0)}>
           Z
-        </Cell>
+        </Button>
       </Toggler>
     </Container>
   );

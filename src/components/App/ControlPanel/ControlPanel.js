@@ -13,19 +13,21 @@ const Container = styled.div`
 `;
 
 const ControlPanel = ({
-  planePosition,
+  planePositions,
   orientation,
+  orientationMaxIndex,
   view,
-  updatePlanePosition,
+  updatePlanePositions,
   updateOrientation,
   updateView,
 }) => {
   return (
     <Container>
       <PlanePosition
-        planePosition={planePosition}
-        handleUpdate={updatePlanePosition}
+        planePositions={planePositions}
+        updatePlanePosition={updatePlanePositions}
         orientation={orientation}
+        orientationMaxIndex={orientationMaxIndex}
       />
       <Orientation
         selectedOrientation={orientation}
@@ -37,10 +39,11 @@ const ControlPanel = ({
 };
 
 ControlPanel.propTypes = {
-  planePosition: PropTypes.object.isRequired,
+  planePositions: PropTypes.object.isRequired,
   orientation: PropTypes.number.isRequired,
+  orientationMaxIndex: PropTypes.number,
   view: PropTypes.number.isRequired,
-  updatePlanePosition: PropTypes.func.isRequired,
+  updatePlanePositions: PropTypes.func.isRequired,
   updateOrientation: PropTypes.func.isRequired,
   updateView: PropTypes.func.isRequired,
 };
