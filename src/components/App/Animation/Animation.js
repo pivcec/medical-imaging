@@ -84,7 +84,7 @@ const Animation = ({
 
     init();
     animate();
-  }, [view, updateCameraPosition, setCenter]);
+  }, []);
 
   useEffect(() => {
     if (!stackHelper) return;
