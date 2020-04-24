@@ -22,20 +22,20 @@ const Button = styled.button`
   height: 50px;
 `;
 
-const View = ({ handleUpdate, selectedView }) => {
+const View = ({ setView, selectedView }) => {
   const getIsSelected = (view) => selectedView === view;
 
   return (
     <Container>
       <Title>View</Title>
       <Toggler>
-        <Button isSelected={getIsSelected(1)} onClick={() => handleUpdate(1)}>
+        <Button isSelected={getIsSelected(1)} onClick={() => setView(1)}>
           X
         </Button>
-        <Button isSelected={getIsSelected(2)} onClick={() => handleUpdate(2)}>
+        <Button isSelected={getIsSelected(2)} onClick={() => setView(2)}>
           Y
         </Button>
-        <Button isSelected={getIsSelected(0)} onClick={() => handleUpdate(0)}>
+        <Button isSelected={getIsSelected(0)} onClick={() => setView(0)}>
           Z
         </Button>
       </Toggler>
@@ -44,7 +44,7 @@ const View = ({ handleUpdate, selectedView }) => {
 };
 
 View.propTypes = {
-  handleUpdate: PropTypes.func.isRequired,
+  setView: PropTypes.func.isRequired,
   selectedView: PropTypes.number.isRequired,
 };
 

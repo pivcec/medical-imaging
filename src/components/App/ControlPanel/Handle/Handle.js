@@ -6,17 +6,17 @@ import {
   orientationKeys,
   sliderWidth,
   handleWidth,
-} from "../../../../../constants/";
+} from "../../../../constants/";
 
 const Handle = ({
   setHandlePosition,
-  orientation,
-  orientationMaxIndex,
-  planePositions,
+  axisIndex,
+  maxHandlePosition,
+  handlePositions,
 }) => {
   const [pixelsFromLeft, setPixelsFromLeft] = useState(0);
-  const orientationKey = orientationKeys[orientation];
-  const planePosition = planePositions[orientationKey];
+  const orientationKey = orientationKeys[axisIndex];
+  const handlePosition = handlePositions[orientationKey];
 
   const debouncedSetHandlePosition = useCallback(
     debounce(setHandlePosition, 500),
@@ -26,7 +26,7 @@ const Handle = ({
   const getNewHandlePosition = (newPositionX) => {
     const percentageOfSlider =
       (newPositionX / (sliderWidth - handleWidth)) * 100;
-    return Math.round((percentageOfSlider / 100) * orientationMaxIndex);
+    return Math.round((percentageOfSlider / 100) * maxHandlePosition);
   };
 
   const getNewPixelsFromLeft = (position) => {
@@ -56,14 +56,14 @@ const Handle = ({
   };
 
   useEffect(() => {
-    if (!orientationMaxIndex) return;
+    if (!maxHandlePosition) return;
 
-    const percentageOfMax = (planePosition / orientationMaxIndex) * 100;
+    const percentageOfMax = (handlePosition / maxHandlePosition) * 100;
     const pixelsFromLeft =
       (percentageOfMax / 100) * (sliderWidth - handleWidth);
 
     setPixelsFromLeft(pixelsFromLeft);
-  }, [planePosition, sliderWidth, orientationMaxIndex]);
+  }, [handlePosition, maxHandlePosition]);
 
   return (
     <Rect
@@ -81,9 +81,9 @@ const Handle = ({
 
 Handle.propTypes = {
   setHandlePosition: PropTypes.func.isRequired,
-  orientation: PropTypes.number.isRequired,
-  orientationMaxIndex: PropTypes.number,
-  planePositions: PropTypes.object.isRequired,
+  axisIndex: PropTypes.number.isRequired,
+  maxHandlePosition: PropTypes.number,
+  handlePositions: PropTypes.object.isRequired,
 };
 
 export default Handle;

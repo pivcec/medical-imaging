@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Zoom from "./Zoom/Zoom";
 import PlanePosition from "./PlanePosition/PlanePosition";
 import Orientation from "./Orientation/Orientation";
 import View from "./View/View";
@@ -17,23 +18,32 @@ const ControlPanel = ({
   orientation,
   orientationMaxIndex,
   view,
-  updatePlanePositions,
-  updateOrientation,
-  updateView,
+  zoomLevels,
+  setPlanePositions,
+  setOrientation,
+  setView,
+  setZoomLevels,
+  setCameraPosition,
 }) => {
   return (
     <Container>
       <PlanePosition
         planePositions={planePositions}
-        updatePlanePosition={updatePlanePositions}
+        setPlanePositions={setPlanePositions}
         orientation={orientation}
         orientationMaxIndex={orientationMaxIndex}
       />
+      <Zoom
+        selectedView={view}
+        zoomLevels={zoomLevels}
+        setZoomLevels={setZoomLevels}
+        setCameraPosition={setCameraPosition}
+      />
       <Orientation
         selectedOrientation={orientation}
-        handleUpdate={updateOrientation}
+        setOrientation={setOrientation}
       />
-      <View selectedView={view} handleUpdate={updateView} />
+      <View selectedView={view} setView={setView} />
     </Container>
   );
 };
@@ -43,9 +53,12 @@ ControlPanel.propTypes = {
   orientation: PropTypes.number.isRequired,
   orientationMaxIndex: PropTypes.number,
   view: PropTypes.number.isRequired,
-  updatePlanePositions: PropTypes.func.isRequired,
-  updateOrientation: PropTypes.func.isRequired,
-  updateView: PropTypes.func.isRequired,
+  zoomLevels: PropTypes.object.isRequired,
+  setPlanePositions: PropTypes.func.isRequired,
+  setOrientation: PropTypes.func.isRequired,
+  setView: PropTypes.func.isRequired,
+  setZoomLevels: PropTypes.func.isRequired,
+  setCameraPosition: PropTypes.func.isRequired,
 };
 
 export default ControlPanel;

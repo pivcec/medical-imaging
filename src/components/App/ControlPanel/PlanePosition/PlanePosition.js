@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Stage, Layer } from "react-konva";
-import Handle from "./Handle/Handle";
+import Handle from "../Handle/Handle";
 import styled from "styled-components";
 import { orientationKeys, sliderWidth } from "../../../../constants/";
 
@@ -31,7 +31,7 @@ const StageContainer = styled.div`
 `;
 
 const PlanePosition = ({
-  updatePlanePosition,
+  setPlanePositions,
   orientation,
   orientationMaxIndex,
   planePositions,
@@ -47,19 +47,23 @@ const PlanePosition = ({
         : planePositions[orientationKey] - 1;
 
     if (newValue >= 0 && newValue <= orientationMaxIndex) {
-      updatePlanePosition({
+      setPlanePositions({
         ...planePositions,
         [orientationKey]: newValue,
       });
     }
   };
 
-  useEffect(() => {
-    updatePlanePosition({
-      ...planePositions,
+  const updatePlanePosition = useCallback(() => {
+    setPlanePositions((prev) => ({
+      ...prev,
       [orientationKey]: handlePosition,
-    });
-  }, [handlePosition]);
+    }));
+  }, [handlePosition, orientationKey, setPlanePositions]);
+
+  useEffect(() => {
+    updatePlanePosition(handlePosition);
+  }, [handlePosition, updatePlanePosition]);
 
   return (
     <Container>
@@ -71,12 +75,10 @@ const PlanePosition = ({
           <Stage width={sliderWidth} height={50}>
             <Layer>
               <Handle
-                handlePosition={handlePosition}
                 setHandlePosition={setHandlePosition}
-                orientation={orientation}
-                orientationMaxIndex={orientationMaxIndex}
-                planePositions={planePositions}
-                updatePlanePosition={updatePlanePosition}
+                axisIndex={orientation}
+                maxHandlePosition={orientationMaxIndex}
+                handlePositions={planePositions}
               />
             </Layer>
           </Stage>
@@ -88,7 +90,7 @@ const PlanePosition = ({
 };
 
 PlanePosition.propTypes = {
-  updatePlanePosition: PropTypes.func.isRequired,
+  setPlanePositions: PropTypes.func.isRequired,
   planePositions: PropTypes.object.isRequired,
   orientation: PropTypes.number.isRequired,
   orientationMaxIndex: PropTypes.number,

@@ -22,20 +22,20 @@ const Button = styled.button`
   height: 50px;
 `;
 
-const Orientation = ({ handleUpdate, selectedOrientation }) => {
+const Orientation = ({ setOrientation, selectedOrientation }) => {
   const getIsSelected = (orientation) => selectedOrientation === orientation;
 
   return (
     <Container>
-      <Title>Orientation</Title>
+      <Title>Slice Orientation</Title>
       <Toggler>
-        <Button isSelected={getIsSelected(1)} onClick={() => handleUpdate(1)}>
+        <Button isSelected={getIsSelected(1)} onClick={() => setOrientation(1)}>
           X
         </Button>
-        <Button isSelected={getIsSelected(2)} onClick={() => handleUpdate(2)}>
+        <Button isSelected={getIsSelected(2)} onClick={() => setOrientation(2)}>
           Y
         </Button>
-        <Button isSelected={getIsSelected(0)} onClick={() => handleUpdate(0)}>
+        <Button isSelected={getIsSelected(0)} onClick={() => setOrientation(0)}>
           Z
         </Button>
       </Toggler>
@@ -44,7 +44,7 @@ const Orientation = ({ handleUpdate, selectedOrientation }) => {
 };
 
 Orientation.propTypes = {
-  handleUpdate: PropTypes.func.isRequired,
+  setOrientation: PropTypes.func.isRequired,
   selectedOrientation: PropTypes.number.isRequired,
 };
 

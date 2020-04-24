@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import THREE from "../../../libs/three";
 import AMI from "../../../libs/ami";
+import throttle from "lodash.throttle";
 import { colors, files } from "../../../helpers/utils";
 import { orientationKeys, views } from "../../../constants/";
 
@@ -15,10 +16,12 @@ const Scene = styled.div`
 `;
 
 const Animation = ({
+  cameraPosition,
   planePositions,
   orientation,
   view,
   setOrientationMaxIndex,
+  setCameraPosition,
 }) => {
   const updateCameraPosition = useCallback((cameraPosition) => {
     camera.position.x = cameraPosition.x;
@@ -74,33 +77,41 @@ const Animation = ({
 
     const animate = () => {
       renderer.render(scene, camera);
-      requestAnimationFrame(animate);
+      requestAnimationFrame(trottledAnimate);
     };
+
+    const trottledAnimate = throttle(animate, 500);
 
     init();
     animate();
-  }, []);
+  }, [view, updateCameraPosition, setCenter]);
 
   useEffect(() => {
     if (!stackHelper) return;
 
     setMaxIndex();
-  }, [planePositions, orientation]);
+  }, [planePositions, orientation, setMaxIndex]);
+
+  useEffect(() => {
+    setCameraPosition(views[view]);
+  }, [view, setCameraPosition]);
 
   useEffect(() => {
     if (!stackHelper) return;
 
-    updateCameraPosition(views[view]);
+    updateCameraPosition(cameraPosition);
     setCenter();
-  }, [view]);
+  }, [cameraPosition, updateCameraPosition, setCenter]);
 
   return <Scene className="scene" />;
 };
 
 Animation.propTypes = {
+  cameraPosition: PropTypes.object.isRequired,
   planePositions: PropTypes.object.isRequired,
   orientation: PropTypes.number.isRequired,
   view: PropTypes.number.isRequired,
+  setCameraPosition: PropTypes.func.isRequired,
   setOrientationMaxIndex: PropTypes.func.isRequired,
 };
 

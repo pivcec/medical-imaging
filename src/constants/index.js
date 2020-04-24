@@ -8,7 +8,7 @@ export const views = [
   },
   {
     x: 253,
-    y: -53,
+    y: -33,
     z: 51,
   },
   {
