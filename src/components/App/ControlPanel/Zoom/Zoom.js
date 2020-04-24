@@ -55,28 +55,20 @@ const Zoom = ({
     }
   };
 
-  const updateZoomLevels = useCallback(() => {
+  useEffect(() => {
     setZoomLevels((prev) => ({
       ...prev,
       [orientationKey]: handlePosition,
     }));
-  }, [handlePosition, orientationKey, setZoomLevels]);
+  }, [handlePosition]);
 
   useEffect(() => {
-    updateZoomLevels(handlePosition);
-  }, [handlePosition, updateZoomLevels]);
-
-  const updateCameraPosition = useCallback(() => {
     const newDistance = originalDistance - zoomLevels[orientationKey];
     setCameraPosition((prev) => ({
       ...prev,
       [orientationKey]: newDistance,
     }));
-  }, [orientationKey, setCameraPosition, originalDistance, zoomLevels]);
-
-  useEffect(() => {
-    updateCameraPosition();
-  }, [updateCameraPosition]);
+  }, [zoomLevels]);
 
   return (
     <Container>

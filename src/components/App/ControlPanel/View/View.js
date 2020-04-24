@@ -27,7 +27,7 @@ const View = ({ setView, selectedView }) => {
 
   return (
     <Container>
-      <Title>View</Title>
+      <Title>View Axis</Title>
       <Toggler>
         <Button isSelected={getIsSelected(1)} onClick={() => setView(1)}>
           X

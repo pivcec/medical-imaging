@@ -54,16 +54,12 @@ const PlanePosition = ({
     }
   };
 
-  const updatePlanePosition = useCallback(() => {
+  useEffect(() => {
     setPlanePositions((prev) => ({
       ...prev,
       [orientationKey]: handlePosition,
     }));
-  }, [handlePosition, orientationKey, setPlanePositions]);
-
-  useEffect(() => {
-    updatePlanePosition(handlePosition);
-  }, [handlePosition, updatePlanePosition]);
+  }, [handlePosition]);
 
   return (
     <Container>

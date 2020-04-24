@@ -17,7 +17,7 @@ const ControlPanel = ({
   planePositions,
   orientation,
   orientationMaxIndex,
-  view,
+  selectedView,
   zoomLevels,
   setPlanePositions,
   setOrientation,
@@ -33,17 +33,17 @@ const ControlPanel = ({
         orientation={orientation}
         orientationMaxIndex={orientationMaxIndex}
       />
-      <Zoom
-        selectedView={view}
-        zoomLevels={zoomLevels}
-        setZoomLevels={setZoomLevels}
-        setCameraPosition={setCameraPosition}
-      />
       <Orientation
         selectedOrientation={orientation}
         setOrientation={setOrientation}
       />
-      <View selectedView={view} setView={setView} />
+      <Zoom
+        selectedView={selectedView}
+        zoomLevels={zoomLevels}
+        setZoomLevels={setZoomLevels}
+        setCameraPosition={setCameraPosition}
+      />
+      <View selectedView={selectedView} setView={setView} />
     </Container>
   );
 };
@@ -52,7 +52,7 @@ ControlPanel.propTypes = {
   planePositions: PropTypes.object.isRequired,
   orientation: PropTypes.number.isRequired,
   orientationMaxIndex: PropTypes.number,
-  view: PropTypes.number.isRequired,
+  selectedView: PropTypes.number.isRequired,
   zoomLevels: PropTypes.object.isRequired,
   setPlanePositions: PropTypes.func.isRequired,
   setOrientation: PropTypes.func.isRequired,

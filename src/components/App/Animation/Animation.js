@@ -19,7 +19,8 @@ const Animation = ({
   cameraPosition,
   planePositions,
   orientation,
-  view,
+  selectedView,
+  zoomLevels,
   setOrientationMaxIndex,
   setCameraPosition,
 }) => {
@@ -46,7 +47,7 @@ const Animation = ({
     const init = () => {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(90, 1, 1, 500);
-      updateCameraPosition(views[view]);
+      updateCameraPosition(cameraPosition);
 
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(900, 900);
@@ -93,15 +94,22 @@ const Animation = ({
   }, [planePositions, orientation, setMaxIndex]);
 
   useEffect(() => {
-    setCameraPosition(views[view]);
-  }, [view, setCameraPosition]);
+    const newView = views[selectedView];
+    const orientationKey = orientationKeys[selectedView];
+    const originalDistance = views[selectedView][orientationKey];
+    const newDistance = originalDistance - zoomLevels[orientationKey];
+    setCameraPosition({
+      ...newView,
+      [orientationKey]: newDistance,
+    });
+  }, [selectedView]);
 
   useEffect(() => {
     if (!stackHelper) return;
 
     updateCameraPosition(cameraPosition);
     setCenter();
-  }, [cameraPosition, updateCameraPosition, setCenter]);
+  }, [cameraPosition]);
 
   return <Scene className="scene" />;
 };
@@ -110,7 +118,8 @@ Animation.propTypes = {
   cameraPosition: PropTypes.object.isRequired,
   planePositions: PropTypes.object.isRequired,
   orientation: PropTypes.number.isRequired,
-  view: PropTypes.number.isRequired,
+  selectedView: PropTypes.number.isRequired,
+  zoomLevels: PropTypes.object.isRequired,
   setCameraPosition: PropTypes.func.isRequired,
   setOrientationMaxIndex: PropTypes.func.isRequired,
 };

@@ -27,7 +27,7 @@ const Orientation = ({ setOrientation, selectedOrientation }) => {
 
   return (
     <Container>
-      <Title>Slice Orientation</Title>
+      <Title>Slice Axis</Title>
       <Toggler>
         <Button isSelected={getIsSelected(1)} onClick={() => setOrientation(1)}>
           X

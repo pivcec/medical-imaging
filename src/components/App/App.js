@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Animation from "./Animation/Animation";
 import ControlPanel from "./ControlPanel/ControlPanel";
 import styled from "styled-components";
+import { views } from "../../constants/";
 
 const Container = styled.div`
   display: flex;
@@ -9,7 +10,9 @@ const Container = styled.div`
 `;
 
 const App = () => {
-  const [cameraPosition, setCameraPosition] = useState({});
+  const [cameraPosition, setCameraPosition] = useState({
+    ...views[0],
+  });
   const [view, setView] = useState(0);
   const [planePositions, setPlanePositions] = useState({
     x: 0,
@@ -30,7 +33,8 @@ const App = () => {
         cameraPosition={cameraPosition}
         planePositions={planePositions}
         orientation={orientation}
-        view={view}
+        selectedView={view}
+        zoomLevels={zoomLevels}
         setCameraPosition={setCameraPosition}
         setOrientationMaxIndex={setOrientationMaxIndex}
       />
@@ -39,7 +43,7 @@ const App = () => {
         zoomLevels={zoomLevels}
         orientation={orientation}
         orientationMaxIndex={orientationMaxIndex}
-        view={view}
+        selectedView={view}
         setPlanePositions={setPlanePositions}
         setOrientation={setOrientation}
         setView={setView}
