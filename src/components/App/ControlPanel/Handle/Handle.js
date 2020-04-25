@@ -8,6 +8,8 @@ import {
   handleWidth,
 } from "../../../../constants/";
 
+let rect;
+
 const Handle = ({
   setHandlePosition,
   axisIndex,
@@ -65,9 +67,23 @@ const Handle = ({
     setPixelsFromLeft(pixelsFromLeft);
   }, [handlePosition, maxHandlePosition]);
 
+  useEffect(() => {
+    animatePosition();
+  }, [pixelsFromLeft]);
+
+  const animatePosition = () => {
+    rect.to({
+      x: pixelsFromLeft,
+      duration: 0.2,
+    });
+  };
+
   return (
     <Rect
-      x={pixelsFromLeft}
+      ref={(node) => {
+        rect = node;
+      }}
+      x={0}
       y={0}
       draggable={true}
       width={handleWidth}
