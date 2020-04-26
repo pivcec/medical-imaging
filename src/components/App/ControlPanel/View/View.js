@@ -22,20 +22,29 @@ const Button = styled.button`
   height: 50px;
 `;
 
-const View = ({ setView, selectedView }) => {
+const View = ({ setSelectedView, selectedView }) => {
   const getIsSelected = (view) => selectedView === view;
 
   return (
     <Container>
       <Title>View Axis</Title>
       <Toggler>
-        <Button isSelected={getIsSelected(1)} onClick={() => setView(1)}>
+        <Button
+          isSelected={getIsSelected("x")}
+          onClick={() => setSelectedView("x")}
+        >
           X
         </Button>
-        <Button isSelected={getIsSelected(2)} onClick={() => setView(2)}>
+        <Button
+          isSelected={getIsSelected("y")}
+          onClick={() => setSelectedView("y")}
+        >
           Y
         </Button>
-        <Button isSelected={getIsSelected(0)} onClick={() => setView(0)}>
+        <Button
+          isSelected={getIsSelected("z")}
+          onClick={() => setSelectedView("z")}
+        >
           Z
         </Button>
       </Toggler>
@@ -44,8 +53,8 @@ const View = ({ setView, selectedView }) => {
 };
 
 View.propTypes = {
-  setView: PropTypes.func.isRequired,
-  selectedView: PropTypes.number.isRequired,
+  setSelectedView: PropTypes.func.isRequired,
+  selectedView: PropTypes.string.isRequired,
 };
 
 export default View;

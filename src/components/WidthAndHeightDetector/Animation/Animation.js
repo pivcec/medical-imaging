@@ -1,28 +1,24 @@
 import React, { useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
+import widthAndHeightDetectorPropTypes from "../WidthAndHeightDetector";
 import THREE from "../../../libs/three";
 import AMI from "../../../libs/ami";
 import throttle from "lodash.throttle";
 import { colors, files } from "../../../helpers/utils";
-import { orientationKeys, views } from "../../../constants/";
+import { orientationKeys, defaultViews } from "../../../constants";
 
 let camera, scene, renderer, stackHelper;
-
-const Scene = styled.div`
-  width: 900px;
-  text-align: center;
-  margin: 1em;
-`;
 
 const Animation = ({
   cameraPosition,
   planePositions,
-  orientation,
+  selectedOrientation,
   selectedView,
   zoomLevels,
   setOrientationMaxIndex,
   setCameraPosition,
+  animationWidth,
+  animationHeight,
 }) => {
   const updateCameraPosition = useCallback((cameraPosition) => {
     camera.position.x = cameraPosition.x;
@@ -31,11 +27,10 @@ const Animation = ({
   }, []);
 
   const setMaxIndex = useCallback(() => {
-    const orientationKey = orientationKeys[orientation];
-    stackHelper.orientation = orientation;
-    stackHelper.index = planePositions[orientationKey];
+    stackHelper.orientation = orientationKeys[selectedOrientation];
+    stackHelper.index = planePositions[selectedOrientation];
     setOrientationMaxIndex(stackHelper.orientationMaxIndex);
-  }, [orientation, planePositions, setOrientationMaxIndex]);
+  }, [selectedOrientation, planePositions, setOrientationMaxIndex]);
 
   const setCenter = useCallback(() => {
     const centerLPS = stackHelper.stack.worldCenter();
@@ -50,7 +45,8 @@ const Animation = ({
       updateCameraPosition(cameraPosition);
 
       renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.setSize(900, 900);
+
+      renderer.setSize(animationWidth, animationHeight);
 
       const container = document.getElementsByClassName("scene")[0];
       container.appendChild(renderer.domElement);
@@ -91,16 +87,16 @@ const Animation = ({
     if (!stackHelper) return;
 
     setMaxIndex();
-  }, [planePositions, orientation, setMaxIndex]);
+  }, [planePositions, selectedOrientation, setMaxIndex]);
 
   useEffect(() => {
-    const newView = views[selectedView];
-    const orientationKey = orientationKeys[selectedView];
-    const originalDistance = views[selectedView][orientationKey];
-    const newDistance = originalDistance - zoomLevels[orientationKey];
+    const newView = defaultViews[selectedView];
+    const originalZoomDistance = newView[selectedView];
+    const newZoomDistance = originalZoomDistance - zoomLevels[selectedView];
+
     setCameraPosition({
       ...newView,
-      [orientationKey]: newDistance,
+      [selectedView]: newZoomDistance,
     });
   }, [selectedView]);
 
@@ -111,17 +107,13 @@ const Animation = ({
     setCenter();
   }, [cameraPosition]);
 
-  return <Scene className="scene" />;
+  return <div className="scene" />;
 };
 
 Animation.propTypes = {
-  cameraPosition: PropTypes.object.isRequired,
-  planePositions: PropTypes.object.isRequired,
-  orientation: PropTypes.number.isRequired,
-  selectedView: PropTypes.number.isRequired,
-  zoomLevels: PropTypes.object.isRequired,
-  setCameraPosition: PropTypes.func.isRequired,
-  setOrientationMaxIndex: PropTypes.func.isRequired,
+  ...widthAndHeightDetectorPropTypes,
+  animationWidth: PropTypes.number.isRequired,
+  animationHeight: PropTypes.number.isRequired,
 };
 
 export default Animation;

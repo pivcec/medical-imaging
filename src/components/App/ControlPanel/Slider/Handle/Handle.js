@@ -6,19 +6,12 @@ import {
   orientationKeys,
   sliderWidth,
   handleWidth,
-} from "../../../../constants/";
+} from "../../../../../constants";
 
 let rect;
 
-const Handle = ({
-  setHandlePosition,
-  axisIndex,
-  maxHandlePosition,
-  handlePositions,
-}) => {
+const Handle = ({ setHandlePosition, maxHandlePosition, handlePosition }) => {
   const [pixelsFromLeft, setPixelsFromLeft] = useState(0);
-  const orientationKey = orientationKeys[axisIndex];
-  const handlePosition = handlePositions[orientationKey];
 
   const debouncedSetHandlePosition = useCallback(
     debounce(setHandlePosition, 500),
@@ -97,9 +90,8 @@ const Handle = ({
 
 Handle.propTypes = {
   setHandlePosition: PropTypes.func.isRequired,
-  axisIndex: PropTypes.number.isRequired,
   maxHandlePosition: PropTypes.number,
-  handlePositions: PropTypes.object.isRequired,
+  handlePosition: PropTypes.number.isRequired,
 };
 
 export default Handle;

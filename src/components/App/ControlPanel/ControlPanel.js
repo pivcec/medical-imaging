@@ -14,49 +14,49 @@ const Container = styled.div`
 `;
 
 const ControlPanel = ({
-  planePositions,
-  orientation,
+  planePosition,
+  selectedOrientation,
   orientationMaxIndex,
   selectedView,
-  zoomLevels,
+  zoomLevel,
   setPlanePositions,
-  setOrientation,
-  setView,
+  setSelectedOrientation,
+  setSelectedView,
   setZoomLevels,
   setCameraPosition,
 }) => {
   return (
     <Container>
       <PlanePosition
-        planePositions={planePositions}
+        planePosition={planePosition}
         setPlanePositions={setPlanePositions}
-        orientation={orientation}
         orientationMaxIndex={orientationMaxIndex}
-      />
-      <Orientation
-        selectedOrientation={orientation}
-        setOrientation={setOrientation}
+        selectedOrientation={selectedOrientation}
       />
       <Zoom
         selectedView={selectedView}
-        zoomLevels={zoomLevels}
+        zoomLevel={zoomLevel}
         setZoomLevels={setZoomLevels}
         setCameraPosition={setCameraPosition}
       />
-      <View selectedView={selectedView} setView={setView} />
+      <Orientation
+        selectedOrientation={selectedOrientation}
+        setSelectedOrientation={setSelectedOrientation}
+      />
+      <View selectedView={selectedView} setSelectedView={setSelectedView} />
     </Container>
   );
 };
 
 ControlPanel.propTypes = {
-  planePositions: PropTypes.object.isRequired,
-  orientation: PropTypes.number.isRequired,
+  planePosition: PropTypes.number.isRequired,
+  selectedOrientation: PropTypes.string.isRequired,
   orientationMaxIndex: PropTypes.number,
-  selectedView: PropTypes.number.isRequired,
-  zoomLevels: PropTypes.object.isRequired,
+  selectedView: PropTypes.string.isRequired,
+  zoomLevel: PropTypes.number.isRequired,
   setPlanePositions: PropTypes.func.isRequired,
-  setOrientation: PropTypes.func.isRequired,
-  setView: PropTypes.func.isRequired,
+  setSelectedOrientation: PropTypes.func.isRequired,
+  setSelectedView: PropTypes.func.isRequired,
   setZoomLevels: PropTypes.func.isRequired,
   setCameraPosition: PropTypes.func.isRequired,
 };
