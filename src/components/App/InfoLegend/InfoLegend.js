@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { defaultViews } from "../../../constants";
+import { defaultCameraPositions } from "../../../constants";
 
 const Container = styled.div`
   padding: 1em;
@@ -39,7 +39,8 @@ const InfoLegend = ({
 }) => {
   const viewInfo = getViewLabel(selectedView);
   const orientationInfo = getOrientationLabel(selectedOrientation);
-  const originalZoomDistance = defaultViews[selectedView][selectedView];
+  const originalZoomDistance =
+    defaultCameraPositions[selectedView][selectedView];
 
   return (
     <Container>
@@ -52,8 +53,8 @@ const InfoLegend = ({
           <InfoContainer align={"flex-end"}>
             <div>
               <div>{`Slice: ${planePosition}/${orientationMaxIndex}`}</div>
-              <div>{`Zoom: ${Math.round(
-                (zoomLevel / originalZoomDistance) * 100
+              <div>{`Zoom: ${((zoomLevel / originalZoomDistance) * 100).toFixed(
+                1
               )}%`}</div>
             </div>
           </InfoContainer>

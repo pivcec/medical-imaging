@@ -4,7 +4,7 @@ export const orientationKeys = {
   z: 0,
 };
 
-export const defaultViews = {
+export const defaultCameraPositions = {
   x: {
     x: 253,
     y: -33,

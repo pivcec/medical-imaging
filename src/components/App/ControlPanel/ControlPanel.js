@@ -23,7 +23,7 @@ const ControlPanel = ({
   setSelectedOrientation,
   setSelectedView,
   setZoomLevels,
-  setCameraPosition,
+  // setCameraPosition,
 }) => {
   return (
     <Container>
@@ -37,7 +37,7 @@ const ControlPanel = ({
         selectedView={selectedView}
         zoomLevel={zoomLevel}
         setZoomLevels={setZoomLevels}
-        setCameraPosition={setCameraPosition}
+        // setCameraPosition={setCameraPosition}
       />
       <Orientation
         selectedOrientation={selectedOrientation}
@@ -58,7 +58,7 @@ ControlPanel.propTypes = {
   setSelectedOrientation: PropTypes.func.isRequired,
   setSelectedView: PropTypes.func.isRequired,
   setZoomLevels: PropTypes.func.isRequired,
-  setCameraPosition: PropTypes.func.isRequired,
+  // setCameraPosition: PropTypes.func.isRequired,
 };
 
 export default ControlPanel;

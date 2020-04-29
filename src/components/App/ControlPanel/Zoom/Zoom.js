@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Slider from "../Slider/Slider";
-import { defaultViews } from "../../../../constants/";
+import { defaultCameraPositions } from "../../../../constants/";
 
 const Zoom = ({
   zoomLevel,
   selectedView,
   setZoomLevels,
-  setCameraPosition,
+  // setCameraPosition,
 }) => {
   const [handlePosition, setHandlePosition] = useState(0);
-  const originalZoomDistance = defaultViews[selectedView][selectedView];
+  const originalZoomDistance =
+    defaultCameraPositions[selectedView][selectedView];
 
   const handleSliderClick = (plusOrMinus) => {
     const newValue = plusOrMinus === "plus" ? zoomLevel + 1 : zoomLevel - 1;
@@ -30,6 +31,7 @@ const Zoom = ({
     }));
   }, [handlePosition]);
 
+  /*
   useEffect(() => {
     const newZoomDistance = originalZoomDistance - zoomLevel;
     setCameraPosition((prev) => ({
@@ -37,6 +39,7 @@ const Zoom = ({
       [selectedView]: newZoomDistance,
     }));
   }, [zoomLevel]);
+  */
 
   return (
     <Slider
@@ -53,7 +56,7 @@ Zoom.propTypes = {
   zoomLevel: PropTypes.number.isRequired,
   selectedView: PropTypes.string.isRequired,
   setZoomLevels: PropTypes.func.isRequired,
-  setCameraPosition: PropTypes.func.isRequired,
+  // setCameraPosition: PropTypes.func.isRequired,
 };
 
 export default Zoom;

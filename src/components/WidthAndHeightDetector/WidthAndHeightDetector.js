@@ -44,8 +44,9 @@ const WidthAndHeightDetector = (props) => {
       {animationWidth && animationHeight && (
         <Animation
           {...props}
-          animationWidth={animationWidth}
-          animationHeight={animationHeight}
+          smallerAnimationDimension={
+            animationWidth > animationHeight ? animationHeight : animationWidth
+          }
         />
       )}
     </Container>
@@ -53,12 +54,10 @@ const WidthAndHeightDetector = (props) => {
 };
 
 WidthAndHeightDetector.propTypes = {
-  cameraPosition: PropTypes.object.isRequired,
   planePositions: PropTypes.object.isRequired,
   selectedOrientation: PropTypes.string.isRequired,
   selectedView: PropTypes.string.isRequired,
-  zoomLevels: PropTypes.object.isRequired,
-  setCameraPosition: PropTypes.func.isRequired,
+  zoomLevel: PropTypes.number.isRequired,
   setOrientationMaxIndex: PropTypes.func.isRequired,
 };
 

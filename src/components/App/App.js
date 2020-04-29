@@ -23,9 +23,11 @@ const ControlPanelContainer = styled.div`
 `;
 
 const App = () => {
+  /*
   const [cameraPosition, setCameraPosition] = useState({
     ...defaultViews["z"],
   });
+  */
   const [planePositions, setPlanePositions] = useState({
     x: 0,
     y: 0,
@@ -54,12 +56,12 @@ const App = () => {
           orientationMaxIndex={orientationMaxIndex}
         />
         <WidthAndHeightDetector
-          cameraPosition={cameraPosition}
+          // cameraPosition={cameraPosition}
           planePositions={planePositions}
           selectedOrientation={selectedOrientation}
           selectedView={selectedView}
-          zoomLevels={zoomLevels}
-          setCameraPosition={setCameraPosition}
+          zoomLevel={zoomLevel}
+          // setCameraPosition={setCameraPosition}
           setOrientationMaxIndex={setOrientationMaxIndex}
         />
       </AnimationContainer>
@@ -74,7 +76,7 @@ const App = () => {
           setSelectedOrientation={setSelectedOrientation}
           setSelectedView={setSelectedView}
           setZoomLevels={setZoomLevels}
-          setCameraPosition={setCameraPosition}
+          // setCameraPosition={setCameraPosition}
         />
       </ControlPanelContainer>
     </Container>
