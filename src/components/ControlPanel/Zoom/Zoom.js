@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Slider from "../Slider/Slider";
-import { defaultCameraPositions } from "../../../../constants/";
+import { defaultCameraPositions } from "../../../constants/";
 
 const Zoom = ({
   zoomLevel,

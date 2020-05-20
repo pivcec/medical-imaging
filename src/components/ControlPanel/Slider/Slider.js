@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Stage, Layer } from "react-konva";
 import styled from "styled-components";
 import Handle from "../Slider/Handle/Handle";
-import { sliderWidth } from "../../../../constants/";
+import { sliderWidth } from "../../../constants";
 
 const Container = styled.div`
   padding: 1em;

@@ -6,7 +6,7 @@ import {
   orientationKeys,
   sliderWidth,
   handleWidth,
-} from "../../../../../constants";
+} from "../../../../constants";
 
 let rect;
 

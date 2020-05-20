@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import InfoLegend from "./InfoLegend/InfoLegend";
-import WidthAndHeightDetector from "../WidthAndHeightDetector/WidthAndHeightDetector";
+import WidthAndHeightDetector from "./WidthAndHeightDetector/WidthAndHeightDetector";
 import ControlPanel from "./ControlPanel/ControlPanel";
 import styled from "styled-components";
-import { defaultViews } from "../../constants/";
+import { defaultViews } from "../constants";
 
 const Container = styled.div`
   display: flex;
