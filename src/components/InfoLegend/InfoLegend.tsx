@@ -1,7 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { defaultCameraPositions } from "../../constants";
+import { DimensionLabels } from "../../types/index";
 
 const Container = styled.div`
   padding: 1em;
@@ -11,24 +11,26 @@ const Container = styled.div`
   display: flex;
 `;
 
-const InfoContainer = styled.div`
+const InfoContainer = styled.div<{ align: string }>`
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: ${(props) => props.align};
 `;
 
-const getViewLabel = (selectedView) => {
-  if (selectedView === "x") return "SIDE VIEW";
-  if (selectedView === "y") return "FRONT VIEW";
-  if (selectedView === "z") return "TOP VIEW";
+const labels = { x: "SIDE", y: "FRONT", z: "TOP" };
+
+type InfoLegendProps = {
+  selectedOrientation: DimensionLabels;
+  selectedView: DimensionLabels;
+  zoomLevel: number;
+  planePosition: number;
+  orientationMaxIndex: number | null;
 };
 
-const getOrientationLabel = (getOrientationLabel) => {
-  if (getOrientationLabel === "x") return "SIDE SLICE";
-  if (getOrientationLabel === "y") return "FRONT SLICE";
-  if (getOrientationLabel === "z") return "TOP SLICE";
-};
+const getViewLabel = (selected: DimensionLabels) => `${labels[selected]} VIEW`;
+const getOrientationLabel = (selected: DimensionLabels) =>
+  `${labels[selected]} SLICE`;
 
 const InfoLegend = ({
   selectedOrientation,
@@ -36,7 +38,7 @@ const InfoLegend = ({
   zoomLevel,
   planePosition,
   orientationMaxIndex,
-}) => {
+}: InfoLegendProps) => {
   const viewInfo = getViewLabel(selectedView);
   const orientationInfo = getOrientationLabel(selectedOrientation);
   const originalZoomDistance =
@@ -62,14 +64,6 @@ const InfoLegend = ({
       )}
     </Container>
   );
-};
-
-InfoLegend.propTypes = {
-  selectedOrientation: PropTypes.string.isRequired,
-  selectedView: PropTypes.string.isRequired,
-  zoomLevel: PropTypes.number.isRequired,
-  planePosition: PropTypes.number.isRequired,
-  orientationMaxIndex: PropTypes.number,
 };
 
 export default InfoLegend;

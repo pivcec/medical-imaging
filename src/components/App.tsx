@@ -3,7 +3,8 @@ import InfoLegend from "./InfoLegend/InfoLegend";
 import WidthAndHeightDetector from "./WidthAndHeightDetector/WidthAndHeightDetector";
 import ControlPanel from "./ControlPanel/ControlPanel";
 import styled from "styled-components";
-import { defaultViews } from "../constants";
+import { Dimensions, DimensionLabels } from "../types/index";
+// import { defaultViews } from "../constants";
 
 const Container = styled.div`
   display: flex;
@@ -28,19 +29,23 @@ const App = () => {
     ...defaultViews["z"],
   });
   */
-  const [planePositions, setPlanePositions] = useState({
+  const [planePositions, setPlanePositions] = useState<Dimensions>({
     x: 0,
     y: 0,
     z: 0,
   });
-  const [zoomLevels, setZoomLevels] = useState({
+  const [zoomLevels, setZoomLevels] = useState<Dimensions>({
     x: 0,
     y: 0,
     z: 0,
   });
-  const [selectedOrientation, setSelectedOrientation] = useState("z");
-  const [selectedView, setSelectedView] = useState("z");
-  const [orientationMaxIndex, setOrientationMaxIndex] = useState(null);
+  const [selectedOrientation, setSelectedOrientation] = useState<
+    DimensionLabels
+  >("z");
+  const [selectedView, setSelectedView] = useState<DimensionLabels>("z");
+  const [orientationMaxIndex, setOrientationMaxIndex] = useState<number | null>(
+    null
+  );
 
   const planePosition = planePositions[selectedOrientation];
   const zoomLevel = zoomLevels[selectedView];

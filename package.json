@@ -6,7 +6,11 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@types/lodash.throttle": "^4.1.6",
+    "@types/react": "^16.9.35",
+    "@types/styled-components": "^5.1.0",
     "ami.js": "^0.0.22",
+    "expo": "^37.0.12",
     "konva": "^5.0.0",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
@@ -15,7 +19,8 @@
     "react-konva": "^16.13.0-0",
     "react-scripts": "3.4.1",
     "styled-components": "^5.1.0",
-    "three": "^0.115.0"
+    "three": "^0.115.0",
+    "typescript": "^3.9.3"
   },
   "scripts": {
     "start": "react-scripts start",

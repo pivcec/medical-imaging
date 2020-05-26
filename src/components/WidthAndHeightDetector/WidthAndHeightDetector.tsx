@@ -1,7 +1,6 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
-import Animation from "./Animation/Animation";
+import Animation, { AnimationProps } from "./Animation/Animation";
 
 const Container = styled.div`
   display: flex;
@@ -11,12 +10,14 @@ const Container = styled.div`
   background-color: black;
 `;
 
-const useResize = (ref) => {
+const useResize = (ref: React.RefObject<HTMLDivElement>) => {
   const [animationWidth, setAnimationWidth] = useState(0);
   const [animationHeight, setAnimationHeight] = useState(0);
 
   useLayoutEffect(() => {
     const handleResize = () => {
+      if (!ref.current) return;
+
       const rect = ref.current.getBoundingClientRect();
       const { width, height } = rect;
       setAnimationWidth(width);
@@ -35,8 +36,10 @@ const useResize = (ref) => {
   return { animationWidth, animationHeight };
 };
 
-const WidthAndHeightDetector = (props) => {
-  const ref = useRef();
+const WidthAndHeightDetector = (
+  props: Omit<AnimationProps, "smallerAnimationDimension">
+) => {
+  const ref = useRef(null);
   const { animationWidth, animationHeight } = useResize(ref);
 
   return (
@@ -51,14 +54,6 @@ const WidthAndHeightDetector = (props) => {
       )}
     </Container>
   );
-};
-
-WidthAndHeightDetector.propTypes = {
-  planePositions: PropTypes.object.isRequired,
-  selectedOrientation: PropTypes.string.isRequired,
-  selectedView: PropTypes.string.isRequired,
-  zoomLevel: PropTypes.number.isRequired,
-  setOrientationMaxIndex: PropTypes.func.isRequired,
 };
 
 export default WidthAndHeightDetector;

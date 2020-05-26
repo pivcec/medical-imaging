@@ -1,18 +1,73 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
-import widthAndHeightDetectorPropTypes from "../WidthAndHeightDetector";
 import THREE from "../../../libs/three";
 import AMI from "../../../libs/ami";
 import throttle from "lodash.throttle";
 import { colors, files } from "../../../helpers/utils";
 import { orientationKeys, defaultCameraPositions } from "../../../constants";
+import { Dimensions, DimensionLabels } from "../../../types/index";
 
-const Scene = styled.div`
+const Scene = styled.div<{ grabbing: boolean }>`
   cursor: ${(props) => (props.grabbing ? "grabbing" : "grab")};
 `;
 
-let camera, scene, renderer, stackHelper;
+type DragCoords = {
+  x: number;
+  y: number;
+};
+
+type Camera = {
+  position: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  lookAt: Function;
+  updateProjectionMatrix: Function;
+};
+
+type Scene = {
+  add: Function;
+};
+
+type Renderer = {
+  setSize: Function;
+  domElement: Node;
+  render: Function;
+};
+
+type StackHelper = {
+  stack: {
+    worldCenter: Function;
+  };
+  orientation: number;
+  index: number;
+  orientationMaxIndex: number;
+  bbox: {
+    color: number;
+  };
+  border: {
+    color: number;
+  };
+};
+
+type Directions = {
+  left: number;
+  right: number;
+  up: number;
+  down: number;
+};
+
+export type AnimationProps = {
+  planePositions: Dimensions;
+  selectedOrientation: DimensionLabels;
+  selectedView: DimensionLabels;
+  zoomLevel: number;
+  setOrientationMaxIndex: Function;
+  smallerAnimationDimension: number;
+};
+
+let camera: Camera, scene: Scene, renderer: Renderer, stackHelper: StackHelper;
 
 const Animation = ({
   planePositions,
@@ -21,10 +76,10 @@ const Animation = ({
   zoomLevel,
   setOrientationMaxIndex,
   smallerAnimationDimension,
-}) => {
+}: AnimationProps) => {
   const halfOfSmallerAnimationDimension = smallerAnimationDimension / 2;
 
-  const [centerOffset, setCenterOffset] = useState({
+  const [centerOffset, setCenterOffset] = useState<Dimensions>({
     x: 0,
     y: 0,
     z: 0,
@@ -32,9 +87,12 @@ const Animation = ({
 
   const [isDragging, setIsDragging] = useState(false);
 
-  const [startDragCoords, setStartDragCoords] = useState(null);
+  const [
+    startDragCoords,
+    setStartDragCoords,
+  ] = React.useState<DragCoords | null>(null);
 
-  const [zoomTo, setZoomTo] = useState({
+  const [zoomTo, setZoomTo] = useState<DragCoords | null>({
     x: halfOfSmallerAnimationDimension,
     y: halfOfSmallerAnimationDimension,
   });
@@ -42,7 +100,7 @@ const Animation = ({
   const startDragCoordsRef = useRef(startDragCoords);
   startDragCoordsRef.current = startDragCoords;
 
-  const selectedViewRef = useRef(selectedView);
+  const selectedViewRef = useRef<DimensionLabels>(selectedView);
   selectedViewRef.current = selectedView;
 
   const zoomLevelRef = useRef(zoomLevel);
@@ -53,7 +111,8 @@ const Animation = ({
 
   const setCenterOffsetThrottled = throttle(setCenterOffset, 50);
 
-  const handleMouseDown = (e) => {
+  const handleMouseDown = (e: React.MouseEvent<HTMLElement>) => {
+    // @ts-ignore
     const bounds = e.target.getBoundingClientRect();
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -67,17 +126,17 @@ const Animation = ({
     });
   };
 
-  const handleMouseMove = (e) => {
-    const bounds = e.target.getBoundingClientRect();
+  const handleMouseMove = (e: MouseEvent) => {
+    const bounds = (e.target as HTMLElement).getBoundingClientRect();
 
     const distanceFromDragStartX =
-      startDragCoordsRef.current.x - (e.clientX - bounds.left);
+      (startDragCoordsRef?.current?.x ?? 0) - (e.clientX - bounds.left);
     const distanceFromDragStartY =
-      startDragCoordsRef.current.y - (e.clientY - bounds.top);
+      (startDragCoordsRef?.current?.y ?? 0) - (e.clientY - bounds.top);
 
     setZoomTo({
-      x: zoomTo.x + distanceFromDragStartX,
-      y: zoomTo.y + distanceFromDragStartY,
+      x: (zoomTo?.x ?? 0) + distanceFromDragStartX,
+      y: (zoomTo?.y ?? 0) + distanceFromDragStartY,
     });
   };
 
@@ -143,7 +202,7 @@ const Animation = ({
           setMaxIndex();
           updateCameraCenter();
         })
-        .catch((error) => {
+        .catch((error: object) => {
           console.log("error loading", error);
         });
     };
@@ -183,7 +242,12 @@ const Animation = ({
   useEffect(() => {
     if (!stackHelper || !zoomTo) return;
 
-    const getCenterOffsetForViewX = ({ left, right, up, down }) => {
+    const getCenterOffsetForViewX = ({
+      left,
+      right,
+      up,
+      down,
+    }: Directions): Dimensions => {
       return {
         x: 0,
         y: down ? down : up ? -up : 0, // pos down, neg up
@@ -191,7 +255,12 @@ const Animation = ({
       };
     };
 
-    const getCenterOffsetForViewY = ({ left, right, up, down }) => {
+    const getCenterOffsetForViewY = ({
+      left,
+      right,
+      up,
+      down,
+    }: Directions): Dimensions => {
       return {
         x: left ? left : right ? -right : 0, // pos left, neg right
         y: 0,
@@ -199,7 +268,12 @@ const Animation = ({
       };
     };
 
-    const getCenterOffsetForViewZ = ({ left, right, up, down }) => {
+    const getCenterOffsetForViewZ = ({
+      left,
+      right,
+      up,
+      down,
+    }: Directions): Dimensions => {
       return {
         x: left ? left : right ? -right : 0, // pos left, neg right
         y: down ? down : up ? -up : 0, // pos down, neg up
@@ -207,7 +281,7 @@ const Animation = ({
       };
     };
 
-    const getCenterOffset = (distanceToMove) => {
+    const getCenterOffset = (distanceToMove: Directions) => {
       if (selectedView === "x") return getCenterOffsetForViewX(distanceToMove);
       if (selectedView === "y") return getCenterOffsetForViewY(distanceToMove);
       if (selectedView === "z") return getCenterOffsetForViewZ(distanceToMove);
@@ -225,6 +299,7 @@ const Animation = ({
 
     const centerOffset = getCenterOffset(distanceToMove);
 
+    // @ts-ignore
     setCenterOffsetThrottled(centerOffset);
   }, [zoomTo]);
 
@@ -242,11 +317,6 @@ const Animation = ({
       className="scene"
     />
   );
-};
-
-Animation.propTypes = {
-  ...widthAndHeightDetectorPropTypes,
-  smallerAnimationDimension: PropTypes.number.isRequired,
 };
 
 export default Animation;
