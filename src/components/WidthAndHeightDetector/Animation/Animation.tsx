@@ -63,7 +63,7 @@ export type AnimationProps = {
   selectedOrientation: DimensionLabels;
   selectedView: DimensionLabels;
   zoomLevel: number;
-  setOrientationMaxIndex: Function;
+  setOrientationMaxIndex: (newVal: number) => void;
   smallerAnimationDimension: number;
 };
 

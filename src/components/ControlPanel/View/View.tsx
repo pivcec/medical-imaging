@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { DimensionLabels } from "../../../types";
 
 const Container = styled.div`
   padding: 1em;
@@ -14,7 +15,7 @@ const Toggler = styled.div`
   display: flex;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ isSelected: boolean }>`
   background-color: ${(props) => (props.isSelected ? "yellow" : "white")};
   padding: 1em;
   margin: 0.5em;
@@ -22,28 +23,33 @@ const Button = styled.button`
   height: 50px;
 `;
 
-const Orientation = ({ setSelectedOrientation, selectedOrientation }) => {
-  const getIsSelected = (orientation) => selectedOrientation === orientation;
+type ViewProptypes = {
+  setSelectedView: (newVal: DimensionLabels) => void;
+  selectedView: DimensionLabels;
+};
+
+const View = ({ setSelectedView, selectedView }: ViewProptypes) => {
+  const getIsSelected = (view: DimensionLabels) => selectedView === view;
 
   return (
     <Container>
-      <Title>Slice Axis</Title>
+      <Title>View Axis</Title>
       <Toggler>
         <Button
           isSelected={getIsSelected("x")}
-          onClick={() => setSelectedOrientation("x")}
+          onClick={() => setSelectedView("x")}
         >
           X
         </Button>
         <Button
           isSelected={getIsSelected("y")}
-          onClick={() => setSelectedOrientation("y")}
+          onClick={() => setSelectedView("y")}
         >
           Y
         </Button>
         <Button
           isSelected={getIsSelected("z")}
-          onClick={() => setSelectedOrientation("z")}
+          onClick={() => setSelectedView("z")}
         >
           Z
         </Button>
@@ -52,9 +58,4 @@ const Orientation = ({ setSelectedOrientation, selectedOrientation }) => {
   );
 };
 
-Orientation.propTypes = {
-  setSelectedOrientation: PropTypes.func.isRequired,
-  selectedOrientation: PropTypes.string.isRequired,
-};
-
-export default Orientation;
+export default View;

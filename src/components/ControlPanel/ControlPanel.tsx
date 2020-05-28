@@ -1,10 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Zoom from "./Zoom/Zoom";
 import PlanePosition from "./PlanePosition/PlanePosition";
 import Orientation from "./Orientation/Orientation";
 import View from "./View/View";
 import styled from "styled-components";
+import { Dimensions, DimensionLabels } from "../../types/index";
 
 const Container = styled.div`
   display: flex;
@@ -12,6 +12,22 @@ const Container = styled.div`
   padding: 1em;
   flex: 1;
 `;
+
+type ControlPanelProps = {
+  planePosition: number;
+  selectedOrientation: string;
+  orientationMaxIndex: number;
+  selectedView: DimensionLabels;
+  zoomLevel: number;
+  setPlanePositions: (
+    newVal: Dimensions | ((oldVal: Dimensions) => Dimensions)
+  ) => void;
+  setSelectedOrientation: (newVal: DimensionLabels) => void;
+  setSelectedView: (newVal: DimensionLabels) => void;
+  setZoomLevels: (
+    newVal: Dimensions | ((oldVal: Dimensions) => Dimensions)
+  ) => void;
+};
 
 const ControlPanel = ({
   planePosition,
@@ -23,8 +39,8 @@ const ControlPanel = ({
   setSelectedOrientation,
   setSelectedView,
   setZoomLevels,
-  // setCameraPosition,
-}) => {
+}: // setCameraPosition,
+ControlPanelProps) => {
   return (
     <Container>
       <PlanePosition
@@ -46,19 +62,6 @@ const ControlPanel = ({
       <View selectedView={selectedView} setSelectedView={setSelectedView} />
     </Container>
   );
-};
-
-ControlPanel.propTypes = {
-  planePosition: PropTypes.number.isRequired,
-  selectedOrientation: PropTypes.string.isRequired,
-  orientationMaxIndex: PropTypes.number,
-  selectedView: PropTypes.string.isRequired,
-  zoomLevel: PropTypes.number.isRequired,
-  setPlanePositions: PropTypes.func.isRequired,
-  setSelectedOrientation: PropTypes.func.isRequired,
-  setSelectedView: PropTypes.func.isRequired,
-  setZoomLevels: PropTypes.func.isRequired,
-  // setCameraPosition: PropTypes.func.isRequired,
 };
 
 export default ControlPanel;

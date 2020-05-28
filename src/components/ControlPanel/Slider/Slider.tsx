@@ -1,8 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Stage, Layer } from "react-konva";
 import styled from "styled-components";
-import Handle from "../Slider/Handle/Handle";
+import Handle from "./Handle/Handle";
 import { sliderWidth } from "../../../constants";
 
 const Container = styled.div`
@@ -30,13 +29,21 @@ const StageContainer = styled.div`
   border-bottom: 1px solid grey;
 `;
 
+type SliderProps = {
+  title: string;
+  setHandlePosition: (newVal: number) => void;
+  maxHandlePosition: number;
+  handlePosition: number;
+  handleClick: (plusOrMinus: string) => void;
+};
+
 const Slider = ({
   title,
   setHandlePosition,
   maxHandlePosition,
   handlePosition,
   handleClick,
-}) => {
+}: SliderProps) => {
   return (
     <Container>
       <TogglerTitle>{title}</TogglerTitle>
@@ -57,14 +64,6 @@ const Slider = ({
       </StageAndButtonContainer>
     </Container>
   );
-};
-
-Slider.propTypes = {
-  title: PropTypes.string.isRequired,
-  setHandlePosition: PropTypes.func.isRequired,
-  maxHandlePosition: PropTypes.number,
-  handlePosition: PropTypes.number.isRequired,
-  handleClick: PropTypes.func.isRequired,
 };
 
 export default Slider;

@@ -1,24 +1,35 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import Slider from "../Slider/Slider";
+import { Dimensions } from "../../../types/index";
+
+type PlanePositionProps = {
+  setPlanePositions: (
+    newVal: Dimensions | ((oldVal: Dimensions) => Dimensions)
+  ) => void;
+  selectedOrientation: string;
+  orientationMaxIndex: number;
+  planePosition: number;
+};
 
 const PlanePosition = ({
   setPlanePositions,
   selectedOrientation,
   orientationMaxIndex,
   planePosition,
-}) => {
+}: PlanePositionProps) => {
   const [handlePosition, setHandlePosition] = useState(0);
 
-  const handleSliderClick = (plusOrMinus) => {
+  const handleSliderClick = (plusOrMinus: string) => {
     const newValue =
       plusOrMinus === "plus" ? planePosition + 1 : planePosition - 1;
 
-    if (newValue >= 0 && newValue <= orientationMaxIndex) {
-      setPlanePositions((prev) => ({
-        ...prev,
-        [selectedOrientation]: newValue,
-      }));
+    if (orientationMaxIndex) {
+      if (newValue >= 0 && newValue <= orientationMaxIndex) {
+        setPlanePositions((prev) => ({
+          ...prev,
+          [selectedOrientation]: newValue,
+        }));
+      }
     }
   };
 
@@ -38,13 +49,6 @@ const PlanePosition = ({
       handleClick={handleSliderClick}
     />
   );
-};
-
-PlanePosition.propTypes = {
-  planePosition: PropTypes.number.isRequired,
-  selectedOrientation: PropTypes.string.isRequired,
-  setPlanePositions: PropTypes.func.isRequired,
-  orientationMaxIndex: PropTypes.number,
 };
 
 export default PlanePosition;

@@ -1,30 +1,44 @@
-import React, { useEffect, useState, useCallback } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import debounce from "lodash.debounce";
 import { Rect } from "react-konva";
-import {
-  orientationKeys,
-  sliderWidth,
-  handleWidth,
-} from "../../../../constants";
+import { sliderWidth, handleWidth } from "../../../../constants";
 
-let rect;
+type HandleProps = {
+  setHandlePosition: (newValue: number) => void;
+  maxHandlePosition: number;
+  handlePosition: number;
+};
 
-const Handle = ({ setHandlePosition, maxHandlePosition, handlePosition }) => {
+type DragBoundPosition = {
+  x: number;
+  y: number;
+};
+
+type NodeRef = {
+  to: Function;
+};
+
+const Handle = ({
+  setHandlePosition,
+  maxHandlePosition,
+  handlePosition,
+}: HandleProps) => {
   const [pixelsFromLeft, setPixelsFromLeft] = useState(0);
+
+  const nodeRef = useRef<NodeRef | null>(null);
 
   const debouncedSetHandlePosition = useCallback(
     debounce(setHandlePosition, 500),
     []
   );
 
-  const getNewHandlePosition = (newPositionX) => {
+  const getNewHandlePosition = (newPositionX: number) => {
     const percentageOfSlider =
       (newPositionX / (sliderWidth - handleWidth)) * 100;
     return Math.round((percentageOfSlider / 100) * maxHandlePosition);
   };
 
-  const getNewPixelsFromLeft = (position) => {
+  const getNewPixelsFromLeft = (position: number) => {
     const limit = sliderWidth - handleWidth;
 
     if (position <= 0) {
@@ -38,11 +52,13 @@ const Handle = ({ setHandlePosition, maxHandlePosition, handlePosition }) => {
     return position;
   };
 
-  const dragBoundFunc = (position) => {
+  const dragBoundFunc = (position: DragBoundPosition) => {
     const newPixelsFromLeft = getNewPixelsFromLeft(position.x);
-    const newHandlePosition = getNewHandlePosition(newPixelsFromLeft);
 
-    debouncedSetHandlePosition(newHandlePosition);
+    if (maxHandlePosition) {
+      const newHandlePosition = getNewHandlePosition(newPixelsFromLeft);
+      debouncedSetHandlePosition(newHandlePosition);
+    }
 
     return {
       x: newPixelsFromLeft,
@@ -65,7 +81,9 @@ const Handle = ({ setHandlePosition, maxHandlePosition, handlePosition }) => {
   }, [pixelsFromLeft]);
 
   const animatePosition = () => {
-    rect.to({
+    if (!nodeRef.current) throw new Error("expected to have a ref");
+
+    nodeRef.current.to({
       x: pixelsFromLeft,
       duration: 0.2,
     });
@@ -74,7 +92,7 @@ const Handle = ({ setHandlePosition, maxHandlePosition, handlePosition }) => {
   return (
     <Rect
       ref={(node) => {
-        rect = node;
+        nodeRef.current = node;
       }}
       x={0}
       y={0}
@@ -86,12 +104,6 @@ const Handle = ({ setHandlePosition, maxHandlePosition, handlePosition }) => {
       fill={"grey"}
     />
   );
-};
-
-Handle.propTypes = {
-  setHandlePosition: PropTypes.func.isRequired,
-  maxHandlePosition: PropTypes.number,
-  handlePosition: PropTypes.number.isRequired,
 };
 
 export default Handle;

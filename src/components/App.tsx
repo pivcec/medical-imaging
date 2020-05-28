@@ -71,18 +71,20 @@ const App = () => {
         />
       </AnimationContainer>
       <ControlPanelContainer>
-        <ControlPanel
-          planePosition={planePosition}
-          zoomLevel={zoomLevel}
-          selectedOrientation={selectedOrientation}
-          orientationMaxIndex={orientationMaxIndex}
-          selectedView={selectedView}
-          setPlanePositions={setPlanePositions}
-          setSelectedOrientation={setSelectedOrientation}
-          setSelectedView={setSelectedView}
-          setZoomLevels={setZoomLevels}
-          // setCameraPosition={setCameraPosition}
-        />
+        {orientationMaxIndex && (
+          <ControlPanel
+            planePosition={planePosition}
+            zoomLevel={zoomLevel}
+            selectedOrientation={selectedOrientation}
+            orientationMaxIndex={orientationMaxIndex}
+            selectedView={selectedView}
+            setPlanePositions={setPlanePositions}
+            setSelectedOrientation={setSelectedOrientation}
+            setSelectedView={setSelectedView}
+            setZoomLevels={setZoomLevels}
+            // setCameraPosition={setCameraPosition}
+          />
+        )}
       </ControlPanelContainer>
     </Container>
   );

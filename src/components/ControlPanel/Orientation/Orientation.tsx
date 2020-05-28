@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { DimensionLabels } from "../../../types";
 
 const Container = styled.div`
   padding: 1em;
@@ -14,7 +15,7 @@ const Toggler = styled.div`
   display: flex;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ isSelected: boolean }>`
   background-color: ${(props) => (props.isSelected ? "yellow" : "white")};
   padding: 1em;
   margin: 0.5em;
@@ -22,28 +23,37 @@ const Button = styled.button`
   height: 50px;
 `;
 
-const View = ({ setSelectedView, selectedView }) => {
-  const getIsSelected = (view) => selectedView === view;
+type OrientationProps = {
+  setSelectedOrientation: (newVal: DimensionLabels) => void;
+  selectedOrientation: string;
+};
+
+const Orientation = ({
+  setSelectedOrientation,
+  selectedOrientation,
+}: OrientationProps) => {
+  const getIsSelected = (orientation: DimensionLabels) =>
+    selectedOrientation === orientation;
 
   return (
     <Container>
-      <Title>View Axis</Title>
+      <Title>Slice Axis</Title>
       <Toggler>
         <Button
           isSelected={getIsSelected("x")}
-          onClick={() => setSelectedView("x")}
+          onClick={() => setSelectedOrientation("x")}
         >
           X
         </Button>
         <Button
           isSelected={getIsSelected("y")}
-          onClick={() => setSelectedView("y")}
+          onClick={() => setSelectedOrientation("y")}
         >
           Y
         </Button>
         <Button
           isSelected={getIsSelected("z")}
-          onClick={() => setSelectedView("z")}
+          onClick={() => setSelectedOrientation("z")}
         >
           Z
         </Button>
@@ -52,9 +62,9 @@ const View = ({ setSelectedView, selectedView }) => {
   );
 };
 
-View.propTypes = {
-  setSelectedView: PropTypes.func.isRequired,
-  selectedView: PropTypes.string.isRequired,
+Orientation.propTypes = {
+  setSelectedOrientation: PropTypes.func.isRequired,
+  selectedOrientation: PropTypes.string.isRequired,
 };
 
-export default View;
+export default Orientation;
