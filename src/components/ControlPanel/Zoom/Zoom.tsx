@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Slider from "../Slider/Slider";
 import { defaultCameraPositions } from "../../../constants";
-import { Dimensions, DimensionLabels } from "../../../types";
+import { Dimensions, DimensionLabels } from "../../../@types/types";
 
 type ZoomProptypes = {
   zoomLevel: number;

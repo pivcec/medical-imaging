@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Slider from "../Slider/Slider";
-import { Dimensions } from "../../../types/index";
+import { Dimensions } from "../../../@types/types";
 
 type PlanePositionProps = {
   setPlanePositions: (

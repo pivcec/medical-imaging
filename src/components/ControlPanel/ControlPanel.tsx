@@ -4,7 +4,7 @@ import PlanePosition from "./PlanePosition/PlanePosition";
 import Orientation from "./Orientation/Orientation";
 import View from "./View/View";
 import styled from "styled-components";
-import { Dimensions, DimensionLabels } from "../../types/index";
+import { Dimensions, DimensionLabels } from "../../@types/types";
 
 const Container = styled.div`
   display: flex;

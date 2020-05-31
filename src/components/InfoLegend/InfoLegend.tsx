@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { defaultCameraPositions } from "../../constants";
-import { DimensionLabels } from "../../types/index";
+import { DimensionLabels } from "../../@types/types";
 
 const Container = styled.div`
   padding: 1em;

@@ -1,11 +1,15 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
 import styled from "styled-components";
 import THREE from "../../../libs/three";
+// import * as THREE from "three";
 import AMI from "../../../libs/ami";
+// import * as AMI from "ami.js";
 import throttle from "lodash.throttle";
 import { colors, files } from "../../../helpers/utils";
 import { orientationKeys, defaultCameraPositions } from "../../../constants";
-import { Dimensions, DimensionLabels } from "../../../types/index";
+import { Dimensions, DimensionLabels } from "../../../@types/types";
+import StackHelper from "../../../libs/ami";
+import { Object3D } from "three/src/core/Object3D";
 
 const Scene = styled.div<{ grabbing: boolean }>`
   cursor: ${(props) => (props.grabbing ? "grabbing" : "grab")};
@@ -14,41 +18,6 @@ const Scene = styled.div<{ grabbing: boolean }>`
 type DragCoords = {
   x: number;
   y: number;
-};
-
-type Camera = {
-  position: {
-    x: number;
-    y: number;
-    z: number;
-  };
-  lookAt: Function;
-  updateProjectionMatrix: Function;
-};
-
-type Scene = {
-  add: Function;
-};
-
-type Renderer = {
-  setSize: Function;
-  domElement: Node;
-  render: Function;
-};
-
-type StackHelper = {
-  stack: {
-    worldCenter: Function;
-  };
-  orientation: number;
-  index: number;
-  orientationMaxIndex: number;
-  bbox: {
-    color: number;
-  };
-  border: {
-    color: number;
-  };
 };
 
 type Directions = {
@@ -67,7 +36,10 @@ export type AnimationProps = {
   smallerAnimationDimension: number;
 };
 
-let camera: Camera, scene: Scene, renderer: Renderer, stackHelper: StackHelper;
+let camera: THREE.PerspectiveCamera,
+  scene: THREE.Scene,
+  renderer: THREE.Renderer,
+  stackHelper: typeof StackHelper;
 
 const Animation = ({
   planePositions,

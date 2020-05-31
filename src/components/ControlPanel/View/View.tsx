@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { DimensionLabels } from "../../../types";
+import { DimensionLabels } from "../../../@types/types";
 
 const Container = styled.div`
   padding: 1em;
