@@ -1,9 +1,7 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
 import styled from "styled-components";
 import THREE from "../../../libs/three";
-// import * as THREE from "three";
 import AMI from "../../../libs/ami";
-// import * as AMI from "ami.js";
 import throttle from "lodash.throttle";
 import { colors, files } from "../../../helpers/utils";
 import { orientationKeys, defaultCameraPositions } from "../../../constants";

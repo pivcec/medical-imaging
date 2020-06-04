@@ -1,4 +1,4 @@
-AMA Medical Imagine Library adapted to work with React
+AMI Medical Imagine Library adapted to work with React
 
 Install project with
 
